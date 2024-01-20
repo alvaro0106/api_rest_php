@@ -24,5 +24,25 @@ $metodo = $_SERVER['REQUEST_METHOD'];
 //Para saber que metodo viene o informacion podemos utilizar para canalizar
 print_r($metodo);
 
+switch ($metodo){
+    //SELECT
+    case 'GET':
+        echo "Consulta de registros - GET";
+        break;
+    //INSERT
+    case 'POST':
+        echo "Consulta el registro - POST";
+        break;
+    //UPDATE
+    case 'PUT':
+        echo "Consulta el registro - PUT";
+        break;
+    //DELETE
+    case 'DELETE':
+        echo "Consulta el registro - DELETE";
+        break;
+    default:
+        echo "Consulta no valida";
+}
 
 ?>
