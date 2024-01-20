@@ -27,22 +27,39 @@ print_r($metodo);
 switch ($metodo){
     //SELECT
     case 'GET':
-        echo "Consulta de registros - GET";
+        echo " Consulta de registros - GET";
+        consultaSelect($conexion);
         break;
     //INSERT
     case 'POST':
-        echo "Consulta el registro - POST";
+        echo " Isertar el registro - POST";
         break;
     //UPDATE
     case 'PUT':
-        echo "Consulta el registro - PUT";
+        echo " Actualizar registro - PUT";
         break;
     //DELETE
     case 'DELETE':
-        echo "Consulta el registro - DELETE";
+        echo "Eliminando registro - DELETE";
         break;
     default:
         echo "Consulta no valida";
+}
+
+//Funcion para hacer una consulta
+function consultaSelect($conexion){
+    $sql = "SELECT * FROM  usuarios";
+    $resultado = $conexion->query($sql);
+
+    if($resultado){
+        $datos = array();
+        while($fila= $resultado ->fetch_assoc()){
+            $datos[] = $fila;
+
+        }
+        echo json_encode($datos);
+    }
+
 }
 
 ?>
