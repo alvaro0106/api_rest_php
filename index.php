@@ -22,17 +22,16 @@ header("Content-Type: application/json");
 //La forma en la que el servidor o la api recibe los datos 
 $metodo = $_SERVER['REQUEST_METHOD'];
 //Para saber que metodo viene o informacion podemos utilizar para canalizar
-print_r($metodo);
 
 switch ($metodo){
     //SELECT
     case 'GET':
-        echo " Consulta de registros - GET";
-        consultaSelect($conexion);
+        consulta($conexion);
         break;
     //INSERT
+    echo " Insertar registro - POST";
     case 'POST':
-        echo " Isertar el registro - POST";
+        insertar($conexion);
         break;
     //UPDATE
     case 'PUT':
@@ -47,7 +46,7 @@ switch ($metodo){
 }
 
 //Funcion para hacer una consulta
-function consultaSelect($conexion){
+function consulta($conexion){
     $sql = "SELECT * FROM  usuarios";
     $resultado = $conexion->query($sql);
 
@@ -60,6 +59,22 @@ function consultaSelect($conexion){
         echo json_encode($datos);
     }
 
+}
+
+function insertar($conexion){
+    $dato = json_decode(file_get_contents('php://input'),true);
+    $nombre = $dato['nombre'];
+    // print_r($nombre);
+
+    $sql = "INSERT INTO usuarios(nombre) VALUE ('$nombre')";
+    $resultado = $conexion->query($sql);
+
+    if($resultado){
+        $dato['id'] = $conexion->insert_id;
+        echo json_encode($dato);
+    }else{
+        echo json_encode(array('error' => 'Error al crear el usuario'));
+    }
 }
 
 ?>
